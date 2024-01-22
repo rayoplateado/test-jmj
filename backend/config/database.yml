@@ -1,0 +1,32 @@
+default: &default
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+
+endpoint: &endpoint
+  host: <%= ENV['POSTGRES_HOST'] %>
+  port: <%= ENV['POSTGRES_PORT'] %>
+
+auth: &auth
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+
+development:
+  <<: *default
+  <<: *endpoint
+  <<: *auth
+  database: metrics_development
+
+
+test:
+  <<: *default
+  <<: *endpoint
+  <<: *auth
+  database: metrics_test
+
+production:
+  <<: *default
+  database: metrics_production
+  host: <%= ENV['POSTGRES_HOST'] %>
+  port: <%= ENV['POSTGRES_PORT'] %>
